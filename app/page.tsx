@@ -3,6 +3,8 @@ import { motion } from 'framer-motion'
 import CategoryCard from '@/components/CategoryCard'
 import Gallery from '@/components/Gallery'
 
+const featureImages = Array.from({ length: 9 }).map((_, i) => `https://picsum.photos/seed/feature-${i+1}/1600/1200`)
+
 export default function HomePage() {
   return (
     <main id="home">
@@ -36,9 +38,9 @@ export default function HomePage() {
       {/* Categories */}
       <section id="portfolio" className="mx-auto max-w-7xl px-4 py-20">
         <div className="grid md:grid-cols-3 gap-6">
-          <CategoryCard href="/architecture" title="Architecture" image="https://picsum.photos/seed/arch/800/900" description="Lijnen, ritme en materiaal in stedelijke en tijdloze ruimtes." />
-          <CategoryCard href="/eyes-wildlife" title="Eyes / Wildlife" image="https://picsum.photos/seed/wild/800/900" description="Intieme ontmoetingen met ogen en dieren in hun natuurlijke habitat." />
-          <CategoryCard href="/nature" title="Nature" image="https://picsum.photos/seed/nature/800/900" description="Landschappen, texturen en stille momenten in de natuur." />
+          <CategoryCard href="/architecture" title="Architecture" image="https://picsum.photos/seed/arch/1200/1400" description="Lijnen, ritme en materiaal in stedelijke en tijdloze ruimtes." />
+          <CategoryCard href="/eyes-wildlife" title="Eyes / Wildlife" image="https://picsum.photos/seed/wild/1200/1400" description="Intieme ontmoetingen met ogen en dieren in hun natuurlijke habitat." />
+          <CategoryCard href="/nature" title="Nature" image="https://picsum.photos/seed/nature/1200/1400" description="Landschappen, texturen en stille momenten in de natuur." />
         </div>
       </section>
 
@@ -48,7 +50,7 @@ export default function HomePage() {
           <h2 className="text-2xl md:text-3xl font-semibold">Uitgelichte beelden</h2>
           <p className="mt-2 text-neutral-300">Een selectie van recente projecten en favoriete foto’s.</p>
           <div className="mt-8">
-            <Gallery seeds={[ 'feature-1','feature-2','feature-3','feature-4','feature-5','feature-6','feature-7','feature-8','feature-9' ]} />
+            <Gallery images={featureImages} />
           </div>
         </div>
       </section>
