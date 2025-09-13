@@ -1,28 +1,20 @@
-# Franky Portfolio – Contact zonder Resend (FormSubmit)
+# Franky Portfolio (Next.js + Tailwind)
 
-Dit project gebruikt **FormSubmit.co** zodat je zonder server of API-sleutel mails kan ontvangen.
+- Lightbox op galerijen (klik op foto → fullscreen, pijltjes/esc werken).
+- Contact via FormSubmit → mailt naar **son034@gmail.com**.
+- Redirect na succes: **https://heinderson-photography.vercel.app/contact?sent=1**.
 
-## Hoe werkt het?
-- Het formulier op `/contact` POST naar `https://formsubmit.co/son034@gmail.com`.
-- Bij de **allereerste inzending** stuurt FormSubmit een bevestigingsmail naar jouw adres. Klik op **Confirm**.
-- Daarna komen nieuwe inzendingen rechtstreeks in je inbox.
+## Aanpassen
+- Foto's: zet JPG's in `/public` en vervang de `picsum.photos` URL's in de pagina's door jouw paden.
+- Tekst/menu: `components/Navbar.tsx`, `app/page.tsx`, `app/*/page.tsx`, `app/about/page.tsx`
 
-## Anti-spam
-- Er zit een honeypot-veld `_honey` in de form (bots vullen dit vaak in).
-- `_captcha` staat op `false`. Wil je extra bescherming, verwijder deze regel.
-
-## Bedankpagina
-- Na succes redirect het formulier naar `/contact?sent=1` en toont het “Bericht is verstuurd”.
-
-## Je eigen foto’s
-- Zet je beelden in `/public` en vervang de `picsum.photos` voorbeelden in de pagina’s.
-
-## Ontwikkelen
+## Develop
 ```bash
 npm install
 npm run dev
 ```
 
-## Deploy
-- Push naar GitHub → Vercel bouwt en publiceert automatisch.
-- Geen environment variables nodig.
+## Deploy (GitHub + Vercel)
+- Upload **de ínhoud** van deze map naar de **root** van je GitHub repo.
+- In Vercel: Framework Preset = **Next.js**; Root Directory leeg (of op submap als je die gebruikt).
+- Deployments → Redeploy → Clear build cache bij problemen.
