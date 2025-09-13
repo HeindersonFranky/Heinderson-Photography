@@ -1,20 +1,21 @@
-# Franky Portfolio (Next.js + Tailwind)
+# Franky Portfolio – Contact zonder Resend (FormSubmit)
 
-## Lichtbak
-- Klik op een foto om te vergroten.
-- Gebruik toetsenbord: ← → voor vorige/volgende, `Esc` om te sluiten.
+Dit project gebruikt **FormSubmit.co** zodat je zonder server of API-sleutel mails kan ontvangen.
 
-## Contactformulier via Resend (Vercel)
-1. Maak een account op https://resend.com en haal je **RESEND_API_KEY** op.
-2. Vercel → Project → Settings → Environment Variables:
-   - `RESEND_API_KEY` = jouw sleutel
-   - `CONTACT_TO` = `son034@gmail.com` (optioneel; standaard gaat het al naar dit adres)
-3. Redeploy (kies **Clear build cache**).
-4. Test via `/contact`.
+## Hoe werkt het?
+- Het formulier op `/contact` POST naar `https://formsubmit.co/son034@gmail.com`.
+- Bij de **allereerste inzending** stuurt FormSubmit een bevestigingsmail naar jouw adres. Klik op **Confirm**.
+- Daarna komen nieuwe inzendingen rechtstreeks in je inbox.
 
-## Afbeeldingen vervangen
-- Zet je beelden in `/public` (bijv. `/public/architecture/...`) en verwijs ernaar met `/architecture/foto.jpg`.
-- De demo gebruikt `picsum.photos` tot je je eigen beelden plaatst.
+## Anti-spam
+- Er zit een honeypot-veld `_honey` in de form (bots vullen dit vaak in).
+- `_captcha` staat op `false`. Wil je extra bescherming, verwijder deze regel.
+
+## Bedankpagina
+- Na succes redirect het formulier naar `/contact?sent=1` en toont het “Bericht is verstuurd”.
+
+## Je eigen foto’s
+- Zet je beelden in `/public` en vervang de `picsum.photos` voorbeelden in de pagina’s.
 
 ## Ontwikkelen
 ```bash
@@ -24,3 +25,4 @@ npm run dev
 
 ## Deploy
 - Push naar GitHub → Vercel bouwt en publiceert automatisch.
+- Geen environment variables nodig.

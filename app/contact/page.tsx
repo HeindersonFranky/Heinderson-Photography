@@ -1,32 +1,15 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 
 export default function ContactPage() {
-  const [name, setName] = useState('')
+  const params = useSearchParams()
+  const sent = params.get('sent') === '1'
   const [email, setEmail] = useState('')
-  const [message, setMessage] = useState('')
-  const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
-  const [error, setError] = useState<string | null>(null)
 
-  async function onSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    setStatus('sending')
-    setError(null)
-    try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, message }),
-      })
-      const data = await res.json()
-      if (!res.ok || !data.ok) throw new Error(data.error || 'Versturen mislukt')
-      setStatus('success')
-      setName(''); setEmail(''); setMessage('')
-    } catch (err: any) {
-      setStatus('error')
-      setError(err.message || 'Er ging iets mis.')
-    }
-  }
+  useEffect(() => {
+    // Pre-fill from local storage if you like; left minimal for now.
+  }, [])
 
   return (
     <main className="bg-neutral-900/40">
@@ -35,20 +18,32 @@ export default function ContactPage() {
         <p className="mt-2 text-neutral-300">Voor opdrachten, prints of samenwerkingen.</p>
 
         <div className="mt-8 grid md:grid-cols-2 gap-10">
-          <form className="grid gap-4" onSubmit={onSubmit}>
+          <form className="grid gap-4"
+                action="https://formsubmit.co/son034@gmail.com"
+                method="POST">
+            {/* Honeypot */}
+            <input type="text" name="_honey" className="hidden" />
+            {/* Disable Captcha (optioneel) */}
+            <input type="hidden" name="_captcha" value="false" />
+            {/* Redirect after success */}
+            <input type="hidden" name="_next" value="/contact?sent=1" />
+            {/* Subject */}
+            <input type="hidden" name="_subject" value="Nieuw bericht via portfolio" />
+            {/* Email template */}
+            <input type="hidden" name="_template" value="table" />
+
             <input className="bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3"
-                   placeholder="Naam" value={name} onChange={e => setName(e.target.value)} required />
+                   placeholder="Naam" name="name" required />
             <input className="bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3"
-                   placeholder="E‑mail" type="email" value={email} onChange={e => setEmail(e.target.value)} required />
+                   placeholder="E-mail" type="email" name="email" required
+                   value={email} onChange={e => setEmail(e.target.value)} />
             <textarea className="bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-3 min-h-[140px]"
-                      placeholder="Bericht" value={message} onChange={e => setMessage(e.target.value)} required />
+                      placeholder="Bericht" name="message" required />
             <button type="submit"
-                    className="inline-flex items-center justify-center gap-2 rounded-2xl bg-white text-neutral-900 px-5 py-3 font-medium hover:opacity-90 disabled:opacity-60"
-                    disabled={status==='sending'}>
-              {status==='sending' ? 'Versturen…' : 'Verstuur →'}
+                    className="inline-flex items-center justify-center gap-2 rounded-2xl bg-white text-neutral-900 px-5 py-3 font-medium hover:opacity-90">
+              Verstuur →
             </button>
-            {status==='success' && <p className="text-green-400 text-sm">Bedankt! Je bericht is verstuurd.</p>}
-            {status==='error' && <p className="text-red-400 text-sm">Oeps: {error}</p>}
+            {sent && <p className="text-green-400 text-sm">Bedankt! Je bericht is verstuurd.</p>}
           </form>
 
           <div className="grid gap-4 text-sm">
